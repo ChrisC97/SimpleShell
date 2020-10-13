@@ -43,8 +43,7 @@ void HandleExitCall(int signum){
   // Check if a child process is running.
   if(childPID > 0){
     // Kill it.
-    kill(childPID, SIGKILL);
-    printf("Killed child.\n");
+    kill(childPID, SIGINT);
   }else{
     // No child was running, end the terminal.
     exit(0);
@@ -54,8 +53,7 @@ void HandleExitCall(int signum){
 // Handles killing a child process if it's ran for at least 10 seconds.
 void KillLongRunningChild(int signum){
   if(childPID > 0){
-    kill(childPID, SIGKILL);
-    printf("Killed child.\n");
+    kill(childPID, SIGINT);
   }
 }
 
@@ -276,6 +274,7 @@ void ForkExternalProcess(bool isBackground, char* outputFile,
   childPID = fork();
   // Forking error.
   if(childPID == -1){
+    Cleanup();
     printf("Error while forking child process.\n");
     return;
   }else if (childPID == 0){
@@ -283,6 +282,7 @@ void ForkExternalProcess(bool isBackground, char* outputFile,
     int openFile = RedirectOutput(isBackground, outputFile);
     // Try to execute program.
     if(execvp(args[0], args) == -1){
+      perror("execvp() failed: ");
       // Error occured, exit the program.
       close(openFile);
       exit(1);
