@@ -14,5 +14,5 @@ void delete_SetEnvCmd(ShellCommand* const sCommandShellObj); //destructor
 
 // Check if the input given matches this command.
 bool SetEnvCmd_CheckInput(ShellCommand* commandObj, char * commandArg);
-// Handle the processing of this command.
+// Tries to set an environment variable with the args provided.
 void SetEnvCmd_Process(ShellCommand* commandObj, int argc, char ** args);
