@@ -73,15 +73,15 @@ int main() {
 
   // Stores the tokenized command line input.
   char *arguments[MAX_COMMAND_LINE_ARGS];
-
-	// Loop forever.
+  
   while (true) {
-    int argCount = 0;
     // Check if a child has terminated, but don't block.
     if(childPID > 0){
       int* status;
       waitpid(-1, status, WNOHANG);
     }
+    
+    int argCount = 0;
 		// Prompt the user with "cwd>".
 		do{
       // Make all the arguments NULL.
@@ -163,6 +163,7 @@ void SetCommands(ShellCommand** cmdArray){
 bool CheckIfBackgroundProcess(int argCount, char ** args){
   bool isBackground = true;
   int j = 0;
+  // Not enough arguments to bother checking.
   if(argCount <= 1){
     return false;
   }
@@ -215,6 +216,8 @@ char* CheckForOutputRedirection(int argCount, char ** args){
 // or both.
 int RedirectOutput(bool isBackground, char* outputFile){
   // If it's a bg process, don't print to console.
+  // Need to printf before redirection for some reason,
+  // as otherwise the console breaks.
   if(isBackground == true){
     printf("(BG) Output redirected.");
     // By default we want to output background programs
@@ -306,6 +309,8 @@ void ForkExternalProcess(bool isBackground, char* outputFile,
   }
 }
 
+// Cleans up anything that we changed while 
+// running a command.
 void Cleanup(){
   // Return to using standard signal for ctrl-c.
   signal(SIGINT, SIG_DFL);
