@@ -14,5 +14,5 @@ void delete_EnvCmd(ShellCommand* const sCommandShellObj); //destructor
 
 // Check if the input given matches this command.
 bool EnvCmd_CheckInput(ShellCommand* commandObj, char * commandArg);
-// Handle the processing of this command.
+// Prints all environment variables.
 void EnvCmd_Process(ShellCommand* commandObj, int argc, char ** args);
