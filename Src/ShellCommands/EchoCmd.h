@@ -14,5 +14,5 @@ void delete_EchoCmd(ShellCommand* const sCommandShellObj); //destructor
 
 // Check if the input given matches this command.
 bool EchoCmd_CheckInput(ShellCommand* commandObj, char * commandArg);
-// Handle the processing of this command.
+// Responses back with what the user typed.
 void EchoCmd_Process(ShellCommand* commandObj, int argc, char ** args);
